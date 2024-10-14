@@ -6,7 +6,7 @@ from .flet_map import FletMap
 
 from fletroute import Params, Basket
 
-class ClientBookPage():
+class ClientHistoryPage():
     dev_scale = 1
     def __init__(self, page: ft.Page):
         super().__init__()
@@ -45,45 +45,48 @@ class ClientBookPage():
             ]
         )
 
-        self.detail_block = ft.Container(
-            ft.Column([
-                ft.Text("Personal Details"),
-                ft.Row([
-                    ft.TextField(hint_text="Name"),
-                    ft.TextField(hint_text="Age")
-                ]),
-                ft.Text("What kind of assistance do you need?"),
-                ft.TextField(hint_text="Help assistance"),
-                ft.Text("Date and Time"),
-                ft.Row([
-                    ft.DatePicker(date_picker_mode=ft.DatePickerMode.DAY),
-                    ft.TimePicker()
-                ]),
-                ft.Text("Company or Building where do you need help"),
-                ft.TextField("Company/Building")
-            ]),
-            bgcolor="#f4f0ec",
-            border_radius=16,
-        )
-
-        self.map = FletMap(
-            latitude=13.8,
-            longtitude=121.1,
-            zoom=13,
-            screenView=[1,1],
+        self.table = ft.DataTable(
+            columns=[
+                ft.DataColumn(ft.Text("First name")),
+                ft.DataColumn(ft.Text("Last name")),
+                ft.DataColumn(ft.Text("Age"), numeric=True),
+            ],
+            rows=[
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("John")),
+                        ft.DataCell(ft.Text("Smith")),
+                        ft.DataCell(ft.Text("43")),
+                    ],
+                ),
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("Jack")),
+                        ft.DataCell(ft.Text("Brown")),
+                        ft.DataCell(ft.Text("19")),
+                    ],
+                ),
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text("Alice")),
+                        ft.DataCell(ft.Text("Wong")),
+                        ft.DataCell(ft.Text("25")),
+                    ],
+                ),
+            ],
         )
 
         self.navbottom = ft.Container(
             ft.Row([
-                ft.IconButton(ft.icons.SCHEDULE_OUTLINED),
-                ft.IconButton(ft.icons.HISTORY_OUTLINED, on_click=self.tohist),
+                ft.IconButton(ft.icons.SCHEDULE_OUTLINED, on_click=self.tobook),
+                ft.IconButton(ft.icons.HISTORY_OUTLINED),
                 ft.IconButton(ft.icons.SETTINGS_OUTLINED)
             ]),
             bgcolor="#5b8485"
         )
 
         self.view = ft.View(
-            route="/clibook",
+            route="/clihist",
             controls=[
                 ft.Container(
                     ft.Column([
@@ -102,9 +105,9 @@ class ClientBookPage():
                     expand_loose=True
                 ),
                 half_circle,
-                self.detail_block,
-                self.map,
+                self.table,
                 self.navbottom
+
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             padding=0,
@@ -116,6 +119,6 @@ class ClientBookPage():
         self.page = page
         return self.view
     
-    def tohist(self, event: ft.ControlEvent):
-        self.page.go("/clihist")
+    def tobook(self, control: ft.ControlEvent):
+        self.page.go("/clibook")
         self.page.update()

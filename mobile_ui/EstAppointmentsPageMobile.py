@@ -2,10 +2,11 @@ import flet as ft
 import flet.canvas as cv
 import math
 import platform
+from .flet_map import FletMap
 
 from fletroute import Params, Basket
 
-class EstablishmentRegisterPage():
+class EstAppointmentsPage():
     dev_scale = 1
     def __init__(self, page: ft.Page):
         super().__init__()
@@ -17,10 +18,13 @@ class EstablishmentRegisterPage():
         ###
 
         title_container = ft.Container(
-            ft.Row([
-                ft.Image("./resources/logo.png", width=64 * self.dev_scale, height=64 * self.dev_scale, fit=ft.ImageFit.CONTAIN),
-                ft.Image("./resources/establishment.png", width=64 * self.dev_scale, height=64 * self.dev_scale, fit=ft.ImageFit.CONTAIN)
-            ], alignment=ft.MainAxisAlignment.CENTER),
+            ft.Column([
+                ft.Row([
+                    ft.Text("Welcome, Name"),
+                    ft.Image("./resources/logo.png", width=64 * self.dev_scale, height=64 * self.dev_scale, fit=ft.ImageFit.CONTAIN)
+                ], alignment=ft.MainAxisAlignment.CENTER),
+                ft.Text("Check and have your appointment right now.")
+            ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
             bgcolor="#dad9d6"
         )
 
@@ -41,8 +45,46 @@ class EstablishmentRegisterPage():
             ]
         )
 
+        self.table = ft.Column([
+            ft.Container(
+                ft.Row([
+                    ft.Container(
+                        ft.Text("Mr. Soberano's Appointment"),
+                        bgcolor="#dbefe1"
+                    ),
+                    ft.Container(
+                        ft.Text("Status"),
+                        bgcolor="#dbefe1"
+                    )
+                ]),
+                bgcolor="f4f0ec"
+            ),
+            ft.Container(
+                ft.Row([
+                    ft.Container(
+                        ft.Text("Mr. Soberano's Appointment"),
+                        bgcolor="#dbefe1"
+                    ),
+                    ft.Container(
+                        ft.Text("Status"),
+                        bgcolor="#dbefe1"
+                    )
+                ]),
+                bgcolor="f4f0ec"
+            )
+        ], spacing=20)
+
+        self.navbottom = ft.Container(
+            ft.Row([
+                ft.IconButton(ft.icons.SCHEDULE_OUTLINED, on_click=self.tobook),
+                ft.IconButton(ft.icons.HISTORY_OUTLINED),
+                ft.IconButton(ft.icons.SETTINGS_OUTLINED)
+            ]),
+            bgcolor="#5b8485"
+        )
+
         self.view = ft.View(
-            route="/estreg",
+            route="/estappoints",
             controls=[
                 ft.Container(
                     ft.Column([
@@ -61,28 +103,9 @@ class EstablishmentRegisterPage():
                     expand_loose=True
                 ),
                 half_circle,
-                ft.Text("Create your Account"),
-                ft.Row([
-                    ft.Icon(ft.icons.STOREFRONT_OUTLINED, size=48),
-                    ft.TextField(hint_text="Company/Building Name", width=250)
-                ]),
-                ft.Row([
-                    ft.Icon(ft.icons.MAPS_HOME_WORK_OUTLINED, size=48),
-                    ft.TextField(hint_text="Address", width=250)
-                ]),
-                ft.Row([
-                    ft.Icon(ft.icons.EMAIL_OUTLINED, size=48),
-                    ft.TextField(hint_text="Email", width=250)
-                ]),
-                ft.Row([
-                    ft.Icon(ft.icons.PASSWORD_OUTLINED, size=48),
-                    ft.TextField(hint_text="Password", width=250)
-                ]),
-                ft.Row([
-                    ft.Icon(ft.icons.PASSWORD_OUTLINED, size=48),
-                    ft.TextField(hint_text="Confirm Password", width=250)
-                ]),
-                ft.ElevatedButton("Register", width=250, height=64, on_click=self.toestappoints)
+                self.table,
+                self.navbottom
+
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             padding=0,
@@ -94,6 +117,6 @@ class EstablishmentRegisterPage():
         self.page = page
         return self.view
     
-    def toestappoints(self, event: ft.ControlEvent):
-        self.page.go("/estappoints")
+    def tobook(self, control: ft.ControlEvent):
+        self.page.go("/clibook")
         self.page.update()

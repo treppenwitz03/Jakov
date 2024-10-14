@@ -6,6 +6,8 @@ from .ChoicePageMobile import ChoicePage
 from .ClientRegisterPageMobile import ClientRegisterPage
 from .EstablishmentRegisterPageMobile import EstablishmentRegisterPage
 from .ClientBookPageMobile import ClientBookPage
+from .ClientHistoryPageMobile import ClientHistoryPage
+from .EstAppointmentsPageMobile import EstAppointmentsPage
 
 async def start(page: ft.Page):
     page.window.width = 1080
@@ -18,13 +20,17 @@ async def start(page: ft.Page):
     client_register_page = ClientRegisterPage(page)
     establishment_register_page = EstablishmentRegisterPage(page)
     client_book_page = ClientBookPage(page)
+    client_history_page = ClientHistoryPage(page)
+    establishment_appointments_page = EstAppointmentsPage(page)
 
     app_routes = [
         path(url="/", clear=True, view=login_page.get_view),
         path(url="/choice", clear=True, view=choice_page.get_view),
         path(url="/clireg", clear=True, view=client_register_page.get_view),
         path(url="/estreg", clear=True, view=establishment_register_page.get_view),
-        path(url="/clibook", clear=True, view=client_book_page.get_view)
+        path(url="/clibook", clear=True, view=client_book_page.get_view),
+        path(url="/clihist", clear=True, view=client_history_page.get_view),
+        path(url="/estappoints", clear=True, view=establishment_appointments_page.get_view)
     ]
 
     Routing(page=page, app_routes=app_routes)
