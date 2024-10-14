@@ -1,2 +1,4 @@
-desktop_ui/__pycache__
-mobile_ui/__pycache__
+desktop_ui/__pycache__/
+mobile_ui/__pycache__/
+fletroute/
+build/

@@ -1,8 +1,17 @@
 import flet as ft
+from fletroute import Routing, path
 
-def start(page: ft.Page):
-    page.window_width = 960
-    page.window_height = 640
+from .LoginPage import LoginPage
 
-    page.controls = [ft.Text("Hello World")]
-    page.update()
+async def start(page: ft.Page):
+    page.window.maximized = True
+    page.window.title_bar_hidden = True
+
+    login_page = LoginPage(page)
+
+    app_routes = [
+        path(url="/", clear=True, view=login_page.get_view),
+    ]
+
+    Routing(page=page, app_routes=app_routes)
+    page.go(page.route)
