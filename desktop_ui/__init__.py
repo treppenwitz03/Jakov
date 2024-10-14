@@ -6,6 +6,7 @@ from .LoginPage import LoginPage
 async def start(page: ft.Page):
     page.window.maximized = True
     page.window.title_bar_hidden = True
+    page.theme_mode = ft. ThemeMode.LIGHT
 
     login_page = LoginPage(page)
 
