@@ -2,10 +2,11 @@ import flet as ft
 import flet.canvas as cv
 import math
 import platform
+from .flet_map import FletMap
 
 from fletroute import Params, Basket
 
-class ClientRegisterPage():
+class ClientBookPage():
     dev_scale = 1
     def __init__(self, page: ft.Page):
         super().__init__()
@@ -17,10 +18,13 @@ class ClientRegisterPage():
         ###
 
         title_container = ft.Container(
-            ft.Row([
-                ft.Image("./resources/logo.png", width=64 * self.dev_scale, height=64 * self.dev_scale, fit=ft.ImageFit.CONTAIN),
-                ft.Image("./resources/client.png", width=64 * self.dev_scale, height=64 * self.dev_scale, fit=ft.ImageFit.CONTAIN)
-            ], alignment=ft.MainAxisAlignment.CENTER),
+            ft.Column([
+                ft.Row([
+                    ft.Text("Welcome, Name"),
+                    ft.Image("./resources/logo.png", width=64 * self.dev_scale, height=64 * self.dev_scale, fit=ft.ImageFit.CONTAIN)
+                ], alignment=ft.MainAxisAlignment.CENTER),
+                ft.Text("Check and have your appointment right now.")
+            ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
             bgcolor="#dad9d6"
         )
 
@@ -41,8 +45,45 @@ class ClientRegisterPage():
             ]
         )
 
+        self.detail_block = ft.Container(
+            ft.Column([
+                ft.Text("Personal Details"),
+                ft.Row([
+                    ft.TextField(hint_text="Name"),
+                    ft.TextField(hint_text="Age")
+                ]),
+                ft.Text("What kind of assistance do you need?"),
+                ft.TextField(hint_text="Help assistance"),
+                ft.Text("Date and Time"),
+                ft.Row([
+                    ft.DatePicker(date_picker_mode=ft.DatePickerMode.DAY),
+                    ft.TimePicker()
+                ]),
+                ft.Text("Company or Building where do you need help"),
+                ft.TextField("Company/Building")
+            ]),
+            bgcolor="#f4f0ec",
+            border_radius=16,
+        )
+
+        self.map = FletMap(
+            latitude=13.8,
+            longtitude=121.1,
+            zoom=13,
+            screenView=[3,3],
+        )
+
+        self.navbottom = ft.Container(
+            ft.Row([
+                ft.IconButton(ft.icons.SCHEDULE_OUTLINED),
+                ft.IconButton(ft.icons.HISTORY_OUTLINED),
+                ft.IconButton(ft.icons.SETTINGS_OUTLINED)
+            ]),
+            bgcolor="#5b8485"
+        )
+
         self.view = ft.View(
-            route="/clireg",
+            route="/clibook",
             controls=[
                 ft.Container(
                     ft.Column([
@@ -61,28 +102,9 @@ class ClientRegisterPage():
                     expand_loose=True
                 ),
                 half_circle,
-                ft.Text("Create your Account"),
-                ft.Row([
-                    ft.Icon(ft.icons.CONTACT_MAIL_OUTLINED, size=48),
-                    ft.TextField(hint_text="Full Name", width=250)
-                ]),
-                ft.Row([
-                    ft.Icon(ft.icons.VERIFIED_USER_ROUNDED, size=48),
-                    ft.TextField(hint_text="Username", width=250)
-                ]),
-                ft.Row([
-                    ft.Icon(ft.icons.EMAIL_OUTLINED, size=48),
-                    ft.TextField(hint_text="Email", width=250)
-                ]),
-                ft.Row([
-                    ft.Icon(ft.icons.PASSWORD_OUTLINED, size=48),
-                    ft.TextField(hint_text="Password", width=250)
-                ]),
-                ft.Row([
-                    ft.Icon(ft.icons.PASSWORD_OUTLINED, size=48),
-                    ft.TextField(hint_text="Confirm Password", width=250)
-                ]),
-                ft.ElevatedButton("Register", width=250, height=64, on_click=self.toclibook)
+                self.detail_block,
+                self.map,
+
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             padding=0,
@@ -93,7 +115,3 @@ class ClientRegisterPage():
     def get_view(self, page: ft.Page, params: Params, basket: Basket):
         self.page = page
         return self.view
-    
-    def toclibook(self, event: ft.ControlEvent):
-        self.page.go("/clibook")
-        self.page.update()
