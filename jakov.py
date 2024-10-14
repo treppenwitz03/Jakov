@@ -11,7 +11,7 @@ async def main(page: ft.Page):
             await ui.start(page)
             return
         
-        if sys.argv[1] == "-m": # TO EASE ANDROID DEVELOPMENT
+        if len(sys.argv) > 1 and sys.argv[1] == "-m": # TO EASE ANDROID DEVELOPMENT
             print("MOBILE MODE")
             import mobile_ui as ui
             await ui.start(page)
