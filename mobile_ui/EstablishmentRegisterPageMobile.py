@@ -5,7 +5,7 @@ import platform
 
 from fletroute import Params, Basket
 
-class ChoicePage():
+class EstablishmentRegisterPage():
     dev_scale = 1
     def __init__(self, page: ft.Page):
         super().__init__()
@@ -19,35 +19,9 @@ class ChoicePage():
         title_container = ft.Container(
             ft.Row([
                 ft.Image("./resources/logo.png", width=64 * self.dev_scale, height=64 * self.dev_scale, fit=ft.ImageFit.CONTAIN),
-                ft.Column(
-                    [
-                        ft.Text("A Special Help Appointment System", size=24 * self.dev_scale),
-                        ft.Text("Connecting Clients to the Establishments for Accessible Assistance", size=16 * self.dev_scale)
-                    ],
-                    horizontal_alignment=ft.CrossAxisAlignment.CENTER
-                )
+                ft.Image("./resources/establishment.png", width=64 * self.dev_scale, height=64 * self.dev_scale, fit=ft.ImageFit.CONTAIN)
             ], alignment=ft.MainAxisAlignment.CENTER),
             bgcolor="#dad9d6"
-        )
-
-        self.client_button = ft.Container(
-            ft.Column([
-                ft.Image("./resources/client.png", width=100 * self.dev_scale, height=100 * self.dev_scale, fit=ft.ImageFit.CONTAIN),
-                ft.Text("Create an account as a Client", text_align=ft.TextAlign.CENTER)
-            ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
-            width=300 * self.dev_scale,
-            height=300 * self.dev_scale,
-            on_click=self.toclireg
-        )
-
-        self.establishment_button = ft.Container(
-            ft.Column([
-                ft.Image("./resources/establishment.png", width=100 * self.dev_scale, height=100 * self.dev_scale, fit=ft.ImageFit.CONTAIN),
-                ft.Text("Create an account as an Establishment", text_align=ft.TextAlign.CENTER)
-            ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
-            width=300 * self.dev_scale,
-            height=300 * self.dev_scale,
-            on_click=self.toestreg
         )
 
         half_circle = cv.Canvas(
@@ -68,7 +42,7 @@ class ChoicePage():
         )
 
         self.view = ft.View(
-            route="/choice",
+            route="/estreg",
             controls=[
                 ft.Container(
                     ft.Column([
@@ -87,8 +61,28 @@ class ChoicePage():
                     expand_loose=True
                 ),
                 half_circle,
-                self.client_button,
-                self.establishment_button
+                ft.Text("Create your Account"),
+                ft.Row([
+                    ft.Icon(ft.icons.STOREFRONT_OUTLINED, size=48),
+                    ft.TextField(hint_text="Company/Building Name", width=250)
+                ]),
+                ft.Row([
+                    ft.Icon(ft.icons.MAPS_HOME_WORK_OUTLINED, size=48),
+                    ft.TextField(hint_text="Address", width=250)
+                ]),
+                ft.Row([
+                    ft.Icon(ft.icons.EMAIL_OUTLINED, size=48),
+                    ft.TextField(hint_text="Email", width=250)
+                ]),
+                ft.Row([
+                    ft.Icon(ft.icons.PASSWORD_OUTLINED, size=48),
+                    ft.TextField(hint_text="Password", width=250)
+                ]),
+                ft.Row([
+                    ft.Icon(ft.icons.PASSWORD_OUTLINED, size=48),
+                    ft.TextField(hint_text="Confirm Password", width=250)
+                ]),
+                ft.ElevatedButton("Register", width=250, height=64)
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             padding=0,
@@ -99,11 +93,3 @@ class ChoicePage():
     def get_view(self, page: ft.Page, params: Params, basket: Basket):
         self.page = page
         return self.view
-    
-    def toclireg(self, event: ft.ControlEvent):
-        self.page.go("/clireg")
-        self.page.update()
-    
-    def toestreg(self, event: ft.ControlEvent):
-        self.page.go("/estreg")
-        self.page.update()
